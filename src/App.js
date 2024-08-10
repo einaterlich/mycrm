@@ -7,6 +7,7 @@ import EditUser from './components/pages/EditUser';
 import Navbar from './components/Navbar';
 import Login from './components/pages/Login';
 import SignUp from './components/pages/SignUp';
+import Home from './components/pages/Home';
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
         </ul>
       </nav> */}
       <Routes>
-        <Route path='/' ></Route>
+        <Route path='/'  element={<Home/>}></Route>
         <Route path='user/create' element={<CreateUser />} />
         <Route path='user/:id/Edit' element={<EditUser/>} />
         <Route path='user/listUsers' element={<ListUser/>} />

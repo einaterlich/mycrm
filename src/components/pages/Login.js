@@ -1,9 +1,15 @@
 import React from 'react'
+import axios from "axios"
 import FormComponent from '../FormComponent'
 import { useState } from 'react'
 import './../FormComponent.css';
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+
 function Login() {
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
 
     const [formLogin, setFormLogin] = useState({
         email: '',
@@ -21,6 +27,17 @@ function Login() {
         event.preventDefault();
         console.log(formLogin);
         try{
+            await axios.post('http://localhost/api/login.php',formLogin).then(response=>{
+                if(response.data.status === 'success'){
+                    setSuccessMessage('Login successful!');
+                    setTimeout(() => {
+                        navigate('/');
+                    }, 2000);
+                }
+                else{
+                    setErrorMessage(response.data.message || 'Login failed');
+                }
+            })
 
         }
         catch{
@@ -44,8 +61,8 @@ function Login() {
                 buttonText='Sign In'
             
             />
-            {/* {errorMessage && <p className="error-message">{errorMessage}</p>}
-            {successMessage && <p className="success-message">{successMessage}</p>} */}
+             {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {successMessage && <p className="success-login">{successMessage}</p>} 
             
             <Link to='/user/signUp' style={{color:'black'}}>New here? Create an account</Link>
         

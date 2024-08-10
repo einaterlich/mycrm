@@ -62,10 +62,18 @@
     border-radius: 5px;
     border: 1px solid #d6e9c6;
   }
+  .success-login{
+    color: green;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom:10px;
+  }
+  
   .error-message {
     color: red;
     font-weight: bold;
     margin-top: 10px;
+    margin-bottom:10px;
   }
   
   @media screen and (max-width: 820) {

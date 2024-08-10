@@ -4,13 +4,17 @@ import './CreateUser.css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-function CreateUser({userId,edit}) {
+function CreateUser({userId,edit,signUp}) {
 
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   useEffect(() => {getUsers();}, []);
 
+  const text = edit ? 'Edit customers to your management' 
+              : signUp ? 'Sign up and get access to our CRM' 
+              : 'Create new customers to your management';
+  const hText=edit ? 'Edit User': signUp ? 'Sign Up': 'Create New Customer';
 
   const [formData, setFormData] = useState({
     firstname: '',
@@ -18,7 +22,8 @@ function CreateUser({userId,edit}) {
     email: '',
     phone: '',
     city: '',
-    address:''
+    address:'',
+    password:''
   });
   // if (id){
   //   const user=getUserById(id);
@@ -47,7 +52,8 @@ function CreateUser({userId,edit}) {
              email: response.data.email || '',
              phone: response.data.phone || '',
              city: response.data.city || '',
-            address: response.data.address || ''
+             address: response.data.address || '',
+             password: response.data.password || ''
          });
     }).catch(error=>{
       console.log("error while getting the data.",error);
@@ -60,7 +66,8 @@ function CreateUser({userId,edit}) {
     { name: 'email', label: 'User Email:', type: 'email', placeholder: 'Your Email' ,value:formData.email},
     { name: 'phone', label: 'Phone:', type: 'text', placeholder: 'Your Phone Number',value:formData.phone },
     { name: 'address', label: 'Address:', type: 'text', placeholder: 'Your Address',value:formData.address },
-    { name: 'city', label: 'City:', type: 'text', placeholder: 'Your City',value:formData.city }
+    { name: 'city', label: 'City:', type: 'text', placeholder: 'Your City',value:formData.city },
+    { name: 'password', label: 'Password:', type: 'password', placeholder: 'Your Password',value:formData.password }
   ];
 
   const handleChange = (event) => {
@@ -106,15 +113,27 @@ function CreateUser({userId,edit}) {
           },
         }).then(response=>{
           if(response.status===200){
-            setSuccessMessage('Form data submitted successfully. User Created');
             setFormData({
               firstname: '',
               lastname: '',
               email: '',
               phone: '',
               city: '',
-              address:''
+              address:'',
+              password:''
             });
+            if(signUp){
+              setSuccessMessage('User Created successfully.');
+              setTimeout(() => {
+                navigate('/user/login');
+              }, 2000); 
+
+            }
+            else{
+              setSuccessMessage('Form data submitted successfully. User Created');
+            }
+          
+            
           }
           else{
             setSuccessMessage('');
@@ -139,9 +158,9 @@ function CreateUser({userId,edit}) {
     <div className='main'>
       <div className='form'>
       <div className='details'> 
-        <h2>{edit ? 'Edit User' : 'Create New User'}</h2>
+        <h2>{hText}</h2>
         <div className='details-p'>
-          <p>{edit ? 'Edit customers to your management' : 'Create New customers to your management'}</p>
+          <p>{text}</p>
         </div>
       </div>
       <div className='form-container'>
