@@ -23,7 +23,7 @@ function ListUser() {
     try {
      const response = await axios.delete(`http://localhost/api/index.php/${id}/delete`);
      console.log(response.data);
-    getUsers(); // Refresh the data
+     getUsers(); // Refresh the data
     } catch (error) {
       console.error("Error while deleting the user:", error);
     }
