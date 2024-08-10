@@ -33,7 +33,7 @@ function Login() {
   return (
     <div className='main'>
       <div className='form-login'>
-        <div className='form-container'>
+        <div className='form-container'> 
             <h3 style={{ fontSize: 36, paddingBottom: 30 ,color:'white'}}>Login</h3>
             <FormComponent 
                 formData={formLogin}
