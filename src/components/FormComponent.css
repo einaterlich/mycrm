@@ -1,0 +1,63 @@
+
+
+.form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group .row {
+    margin-bottom: 1rem;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .footer-input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  /* CustomerForm.css */
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  padding: 20px;
+  box-sizing: border-box;
+}
+.form-login{
+  width: 30%;
+  display: flex;
+  align-items: flex-start;
+  box-sizing: border-box;
+  background :#d3d3d3;
+  padding: 20px;
+}
+
+.form-container {
+  flex: 1;
+  padding: 20px;
+}
+
+.details {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-wrapper {
+  display: flex;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+  

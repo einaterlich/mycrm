@@ -1,0 +1,9 @@
+.main-conatiner{
+    height: 100vh;
+    display: block !important;
+    justify-content: center;
+    align-items: center;
+    background: whitesmoke;
+    padding: 20px;
+    box-sizing: border-box;
+}
