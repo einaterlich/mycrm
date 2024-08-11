@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './Button';
-import { Link,useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import './Navbar.css';
 
-function Navbar() {
+function Navbar({isLoggedIn, isAdminLoggedIn, handleLogout}) {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
   const navigate = useNavigate();
+  
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
+  const handleLogoutClick = () => {
+    handleLogout();
+    console.log('logged out successfully');
+  };
   const showButton = () => {
     if (window.innerWidth <= 960) {
       setButton(false);
@@ -45,26 +51,46 @@ function Navbar() {
                 Home
               </Link>
             </li>
-            <li className='nav-item'>
+            {isLoggedIn ? (
+          // If the user is logged in
+              <>
+              <li className='nav-item'>
+              <Link to="user/create" className='nav-links' onClick={closeMobileMenu}>Create User</Link>
+              </li>
+              <li className='nav-item'>
+                  <Link to="user/listUsers" className='nav-links' onClick={closeMobileMenu}>Users List</Link>
+              </li>
+            </>
+            ) : isAdminLoggedIn ? (
+              // else, if an admin is logged in
+              <>
+               <li className='nav-item'>
                 <Link to="user/create" className='nav-links' onClick={closeMobileMenu}>Create User</Link>
-            </li>
-            <li className='nav-item'>
-                <Link to="user/listUsers" className='nav-links' onClick={closeMobileMenu}>Users List</Link>
-            </li>
-            <li className='nav-item'>
-               <Link to='user/signUp' className='nav-links' onClick={closeMobileMenu}>Sign Up</Link>
-            </li>
-            <li>
-              <Link
-                to='/sign-up'
-                className='nav-links-mobile'
-                onClick={closeMobileMenu}
-              >
-                Sign Up
-              </Link>
-            </li>
+                </li>
+                <li className='nav-item'>
+                    <Link to="user/listUsers" className='nav-links' onClick={closeMobileMenu}>Users List</Link>
+                </li>
+              </>
+            ):(<>
+              <li className='nav-item'>
+                <Link to='user/signUp' className='nav-links' onClick={closeMobileMenu}>Sign Up</Link>
+              </li>
+              </>)
+             }
+            
+
           </ul>
-          {button && <Button buttonStyle='btn--outlineWhite' onClick={handleClickLogin} >Login</Button>}
+          {isLoggedIn ? (
+            <>
+            {button && <Button buttonStyle='btn--outlineWhite' onClick={handleLogoutClick} >Log Out</Button>}
+            </>
+          ):
+          <>
+           {button && <Button buttonStyle='btn--outlineWhite' onClick={handleClickLogin} >Login</Button>}
+          </>
+
+          }
+         
         </div>
       </nav>
     </>

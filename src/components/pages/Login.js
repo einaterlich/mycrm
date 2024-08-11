@@ -1,15 +1,18 @@
 import React from 'react'
 import axios from "axios"
 import FormComponent from '../FormComponent'
-import { useState } from 'react'
 import './../FormComponent.css';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import {  useState} from 'react';
 
-function Login() {
+
+function Login({isLoggedIn}) {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
+    
+
 
     const [formLogin, setFormLogin] = useState({
         email: '',
@@ -28,15 +31,21 @@ function Login() {
         console.log(formLogin);
         try{
             await axios.post('http://localhost/api/login.php',formLogin).then(response=>{
-                if(response.data.status === 'success'){
+                if(response && response.data.status === 'success'){
                     setSuccessMessage('Login successful!');
+                    localStorage.setItem('token', response.data.token);
+                    isLoggedIn(true);
                     setTimeout(() => {
-                        navigate('/');
+                        navigate('/user/listUsers');
                     }, 2000);
                 }
                 else{
-                    setErrorMessage(response.data.message || 'Login failed');
+                    isLoggedIn(false);
+                    setErrorMessage(response?.data?.message || 'Login failed');
                 }
+            }).catch(err =>{
+                setErrorMessage(err.response?.data?.message || 'Login failed. An error occurred');
+                isLoggedIn(false);
             })
 
         }
