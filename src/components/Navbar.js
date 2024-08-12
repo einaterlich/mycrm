@@ -51,17 +51,20 @@ function Navbar({isLoggedIn, isAdminLoggedIn, handleLogout}) {
                 Home
               </Link>
             </li>
-            {isLoggedIn ? (
+            {isAdminLoggedIn ? (
           // If the user is logged in
               <>
-              <li className='nav-item'>
+              {/* <li className='nav-item'>
               <Link to="user/create" className='nav-links' onClick={closeMobileMenu}>Create User</Link>
+              </li> */}
+              <li className='nav-item'>
+                  <Link to="user/listUsers" className='nav-links' onClick={closeMobileMenu}>Users List</Link>
               </li>
               <li className='nav-item'>
                   <Link to="user/listUsers" className='nav-links' onClick={closeMobileMenu}>Users List</Link>
               </li>
             </>
-            ) : isAdminLoggedIn ? (
+            ) : isLoggedIn ? (
               // else, if an admin is logged in
               <>
                <li className='nav-item'>
@@ -74,8 +77,7 @@ function Navbar({isLoggedIn, isAdminLoggedIn, handleLogout}) {
             ):(<>
               <li className='nav-item'>
                 <Link to='user/signUp' className='nav-links' onClick={closeMobileMenu}>Sign Up</Link>
-              </li>
-              </>)
+              </li></>)
              }
             
 

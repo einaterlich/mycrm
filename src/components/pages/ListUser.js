@@ -5,7 +5,7 @@ import Table from '../Table';
 import './ListUser.css'
 
 
-function ListUser() {
+function ListUser({isLoggedIn}) {
   const [users,setUsers]=useState([]);
   useEffect(() => {getUsers();}, []);
   

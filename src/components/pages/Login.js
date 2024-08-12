@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import {  useState} from 'react';
 
 
-function Login({isLoggedIn}) {
+function Login({isLoggedIn,setIsAdminLoggedIn}) {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
@@ -33,8 +33,17 @@ function Login({isLoggedIn}) {
             await axios.post('http://localhost/api/login.php',formLogin).then(response=>{
                 if(response && response.data.status === 'success'){
                     setSuccessMessage('Login successful!');
-                    localStorage.setItem('token', response.data.token);
+                    //localStorage.setItem('token', response.data.token);
+                    sessionStorage.setItem('jwtToken', response.data.token);
+                    document.cookie = `refreshToken=${response.data.refreshToken}; expires=${new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toUTCString()}; path=/; secure; SameSite=Strict`;
                     isLoggedIn(true);
+
+                    const decodedToken = JSON.parse(atob(response.data.token.split('.')[1]));
+                    const userRole = decodedToken.data.role;
+                    if(userRole==="admin"){
+                        setIsAdminLoggedIn(true)
+                    }
+                    
                     setTimeout(() => {
                         navigate('/user/listUsers');
                     }, 2000);
@@ -44,7 +53,7 @@ function Login({isLoggedIn}) {
                     setErrorMessage(response?.data?.message || 'Login failed');
                 }
             }).catch(err =>{
-                setErrorMessage(err.response?.data?.message || 'Login failed. An error occurred');
+                setErrorMessage(err.response?.data?.message || err.response);
                 isLoggedIn(false);
             })
 
