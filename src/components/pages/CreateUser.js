@@ -4,7 +4,7 @@ import './CreateUser.css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-function CreateUser({userId,edit,signUp}) {
+function CreateUser({userId,edit,signUp,isLoggedIn}) {
 
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -155,7 +155,9 @@ function CreateUser({userId,edit,signUp}) {
 
 
   return (
-    <div className='main'>
+    <>{
+      isLoggedIn?(
+        <div className='main'>
       <div className='form'>
       <div className='details'> 
         <h2>{hText}</h2>
@@ -179,6 +181,15 @@ function CreateUser({userId,edit,signUp}) {
     </div>
    
 
+      ):(
+        <div>
+             <p>error. you dont have permmission</p>
+         </div>
+      )
+    }
+    
+    </>
+    
   );
 }
 
