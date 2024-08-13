@@ -32,11 +32,6 @@ function App() {
         const userRole = decodedToken.data.role;
         const id = decodedToken.data.id;
         setUserId(id);
-        console.log(decodedToken.data.id);
-        console.log(userRole);
-        console.log("2222")
-        
-        // Set the logged-in state
         setIsLoggedIn(true);
   
         // Check if the user is an admin
@@ -136,12 +131,12 @@ function App() {
   return (
     <div className="App">
       <Router>
-      <Navbar isLoggedIn={isLoggedIn}  isAdminLoggedIn={isAdminLoggedIn} handleLogout={handleLogout}></Navbar>
+      <Navbar isLoggedIn={isLoggedIn}  isAdminLoggedIn={isAdminLoggedIn} handleLogout={handleLogout} userId={userId}></Navbar>
       <Routes>
         <Route path='/'  element={<Home/>}></Route>
         <Route path='user/profile'  element={<Profile idUser={userId} isLoggedIn={isLoggedIn}/>}></Route>
         <Route path='user/create' element={<CreateUser  />} />
-        <Route path='user/:id/Edit' element={<EditUser />} />
+        <Route path='user/:id/Edit' element={<EditUser idUser={userId} />} />
         <Route path='user/listUsers' element={<ListUser  />} />
         <Route path='user/signUp' element={<SignUp/>} />
         <Route path='user/login' element={<Login isLoggedIn={setIsLoggedIn} setIsAdminLoggedIn={setIsAdminLoggedIn} setUserId={setUserId}/>} />

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import {useNavigate} from 'react-router-dom';
 import './Navbar.css';
 
-function Navbar({isLoggedIn, isAdminLoggedIn, handleLogout}) {
+function Navbar({isLoggedIn, isAdminLoggedIn, handleLogout,userId}) {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
   const navigate = useNavigate();
@@ -54,15 +54,20 @@ function Navbar({isLoggedIn, isAdminLoggedIn, handleLogout}) {
             {isAdminLoggedIn ? (
           // If the user is logged in
               <>
-              {/* <li className='nav-item'>
-              <Link to="user/create" className='nav-links' onClick={closeMobileMenu}>Create User</Link>
-              </li> */}
-              <li className='nav-item'>
-                  <Link to="user/listUsers" className='nav-links' onClick={closeMobileMenu}>Users List</Link>
-              </li>
-              <li className='nav-item'>
-                  <Link to="user/listUsers" className='nav-links' onClick={closeMobileMenu}>Users List</Link>
-              </li>
+               <li className='nav-item'>
+                    <Link to="user/profile" className='nav-links' onClick={closeMobileMenu}>Profile</Link>
+                </li>
+                <li className='nav-item'>
+                    <Link to={`/user/${userId}/Edit`} className='nav-links' onClick={closeMobileMenu}>Edit Profile</Link>
+                </li>
+    
+               <li className='nav-item'>
+                <Link to="user/create" className='nav-links' onClick={closeMobileMenu}>Create User</Link>
+                </li>
+                <li className='nav-item'>
+                    <Link to="user/listUsers" className='nav-links' onClick={closeMobileMenu}>Users List</Link>
+                </li>
+               
             </>
             ) : isLoggedIn ? (
               // else, if an admin is logged in
@@ -70,12 +75,19 @@ function Navbar({isLoggedIn, isAdminLoggedIn, handleLogout}) {
               <li className='nav-item'>
                     <Link to="user/profile" className='nav-links' onClick={closeMobileMenu}>Profile</Link>
                 </li>
-               <li className='nav-item'>
+                <li className='nav-item'>
+                    <Link to={`/user/${userId}/Edit`} className='nav-links' onClick={closeMobileMenu}>Edit Profile</Link>
+                </li>
+    
+               {/* <li className='nav-item'>
                 <Link to="user/create" className='nav-links' onClick={closeMobileMenu}>Create User</Link>
                 </li>
                 <li className='nav-item'>
                     <Link to="user/listUsers" className='nav-links' onClick={closeMobileMenu}>Users List</Link>
-                </li>
+                </li> */}
+               
+                
+                
                 
               </>
             ):(<>
