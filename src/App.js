@@ -137,7 +137,7 @@ function App() {
         <Route path='user/profile'  element={<Profile idUser={userId} isLoggedIn={isLoggedIn}/>}></Route>
         <Route path='user/create' element={<CreateUser  />} />
         <Route path='user/:id/Edit' element={<EditUser idUser={userId} />} />
-        <Route path='user/listUsers' element={<ListUser  />} />
+        <Route path='user/listUsers' element={<ListUser isAdminLoggedIn={isAdminLoggedIn}  />} />
         <Route path='user/signUp' element={<SignUp/>} />
         <Route path='user/login' element={<Login isLoggedIn={setIsLoggedIn} setIsAdminLoggedIn={setIsAdminLoggedIn} setUserId={setUserId}/>} />
       </Routes>

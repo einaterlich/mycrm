@@ -5,19 +5,27 @@ import Table from '../Table';
 import './ListUser.css'
 
 
-function ListUser({isLoggedIn}) {
+function ListUser({isAdminLoggedIn}) {
   const [users,setUsers]=useState([]);
   useEffect(() => {getUsers();}, []);
   
 
   async function getUsers(){
-    await axios.get('http://localhost/api/index.php')
-    .then(response=>{
-      console.log(response.data);
-      setUsers(response.data);
-    }).catch(error=>{
-      console.log("error while getting the data.",error);
-    });
+    try {
+      if(isAdminLoggedIn){
+        await axios.get('http://localhost/api/index.php')
+        .then(response=>{
+          console.log(response.data);
+          setUsers(response.data);
+        }).catch(error=>{
+          console.log("error while getting the data.",error);
+        });
+      }
+    }
+   catch (error) {
+    console.error("Error while deleting the user:", error);
+  }
+    
   }
   async function handleDelete(id) {
     try {
@@ -39,10 +47,20 @@ function ListUser({isLoggedIn}) {
 // }
   
   return (
-    <div className='main-conatiner'>
+    <>
+    {isAdminLoggedIn?(
+      <div className='main-conatiner'>
       <h1>List of users</h1>
       <Table data={users} onDelete={handleDelete} ></Table>
     </div>
+    ):(
+      <div>
+          <p>error. you dont have permmission</p>
+      </div>
+
+    )}
+    
+    </>
     
   )
 }
