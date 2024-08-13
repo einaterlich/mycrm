@@ -17,18 +17,22 @@ import Profile from './components/pages/Profile';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const[userId,setUserId]=useState('');
 
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [jwtToken, setJwtToken] = useState(sessionStorage.getItem('jwtToken') || '');
   const [loading, setLoading] = useState(true); // For loading state
   useEffect(() => {
     const jwtToken = sessionStorage.getItem('jwtToken');
-  
+
     if (jwtToken) {
       try {
         // Decode the JWT token to extract the role
         const decodedToken = JSON.parse(atob(jwtToken.split('.')[1]));
         const userRole = decodedToken.data.role;
+        const id = decodedToken.data.id;
+        setUserId(id);
+        console.log(decodedToken.data.id);
         console.log(userRole);
         console.log("2222")
         
@@ -82,6 +86,7 @@ function App() {
       console.log(newToken);
       setJwtToken(newToken);
       setIsLoggedIn(true);
+
       setLoading(false); // Set loading to false once token is refreshed
     } catch (error) {
       console.error('Error refreshing JWT token:', error);
@@ -134,12 +139,12 @@ function App() {
       <Navbar isLoggedIn={isLoggedIn}  isAdminLoggedIn={isAdminLoggedIn} handleLogout={handleLogout}></Navbar>
       <Routes>
         <Route path='/'  element={<Home/>}></Route>
-        <Route path='user/home'  element={<Profile/>}></Route>
+        <Route path='user/profile'  element={<Profile idUser={userId} isLoggedIn={isLoggedIn}/>}></Route>
         <Route path='user/create' element={<CreateUser  />} />
         <Route path='user/:id/Edit' element={<EditUser />} />
         <Route path='user/listUsers' element={<ListUser  />} />
         <Route path='user/signUp' element={<SignUp/>} />
-        <Route path='user/login' element={<Login isLoggedIn={setIsLoggedIn} setIsAdminLoggedIn={setIsAdminLoggedIn}/>} />
+        <Route path='user/login' element={<Login isLoggedIn={setIsLoggedIn} setIsAdminLoggedIn={setIsAdminLoggedIn} setUserId={setUserId}/>} />
       </Routes>
       </Router>
       

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import {  useState} from 'react';
 
 
-function Login({isLoggedIn,setIsAdminLoggedIn}) {
+function Login({isLoggedIn,setIsAdminLoggedIn,setUserId}) {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
@@ -38,14 +38,16 @@ function Login({isLoggedIn,setIsAdminLoggedIn}) {
                     document.cookie = `refreshToken=${response.data.refreshToken}; expires=${new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toUTCString()}; path=/; secure; SameSite=Strict`;
                     isLoggedIn(true);
 
+
                     const decodedToken = JSON.parse(atob(response.data.token.split('.')[1]));
                     const userRole = decodedToken.data.role;
+                    setUserId(decodedToken.data.id)
                     if(userRole==="admin"){
                         setIsAdminLoggedIn(true)
                     }
                     
                     setTimeout(() => {
-                        navigate('/user/listUsers');
+                        navigate('/user/profile');
                     }, 2000);
                 }
                 else{

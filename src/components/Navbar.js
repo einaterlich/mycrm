@@ -67,12 +67,16 @@ function Navbar({isLoggedIn, isAdminLoggedIn, handleLogout}) {
             ) : isLoggedIn ? (
               // else, if an admin is logged in
               <>
+              <li className='nav-item'>
+                    <Link to="user/profile" className='nav-links' onClick={closeMobileMenu}>Profile</Link>
+                </li>
                <li className='nav-item'>
                 <Link to="user/create" className='nav-links' onClick={closeMobileMenu}>Create User</Link>
                 </li>
                 <li className='nav-item'>
                     <Link to="user/listUsers" className='nav-links' onClick={closeMobileMenu}>Users List</Link>
                 </li>
+                
               </>
             ):(<>
               <li className='nav-item'>
