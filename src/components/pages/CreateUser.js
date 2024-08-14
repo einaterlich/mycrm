@@ -148,29 +148,33 @@ function CreateUser({userId,edit,signUp}) {
           },
         }).then(response=>{
           if(response.status===200){
-            console.log(response);
-            setFormData({
-              firstname: '',
-              lastname: '',
-              email: '',
-              phone: '',
-              city: '',
-              address:'',
-              password:''
-            });
-            if(signUp){
-              setSuccessMessage('User Created successfully.');
-              setErrorMessage('');
-              setTimeout(() => {
-                navigate('/user/login');
-              }, 2000); 
+            if(response.data.status===1){
+              setFormData({
+                firstname: '',
+                lastname: '',
+                email: '',
+                phone: '',
+                city: '',
+                address:'',
+                password:''
+              });
+              if(signUp){
+                setSuccessMessage('User Created successfully.');
+                setErrorMessage('');
+                setTimeout(() => {
+                  navigate('/user/login');
+                }, 2000); 
 
+              }
+              else{
+                setSuccessMessage('Form data submitted successfully. User Created');
+                setErrorMessage('');
+              }
             }
             else{
-              setSuccessMessage('Form data submitted successfully. User Created');
-              setErrorMessage('');
+              setErrorMessage(response.data.message);
+              return;
             }
-          
           }
           else{
             setSuccessMessage('');
@@ -182,9 +186,7 @@ function CreateUser({userId,edit,signUp}) {
         });
         
       }
-
     
-     
     } catch (error) {
       console.error('Error submitting form:', error.message);
     }
