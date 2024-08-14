@@ -11,8 +11,8 @@ create new customers
 Edit his profile
 
 you can log as an admin with:
-admin@gmail.com
-123456
+adminadmin@gmail.com
+123456789
 
 Customer:
 can see his profile and edit.
