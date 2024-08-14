@@ -21,20 +21,18 @@ function App() {
 
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [jwtToken, setJwtToken] = useState(sessionStorage.getItem('jwtToken') || '');
-  const [loading, setLoading] = useState(true); // For loading state
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const jwtToken = sessionStorage.getItem('jwtToken');
 
     if (jwtToken) {
       try {
-        // Decode the JWT token to extract the role
         const decodedToken = JSON.parse(atob(jwtToken.split('.')[1]));
         const userRole = decodedToken.data.role;
         const id = decodedToken.data.id;
         setUserId(id);
         setIsLoggedIn(true);
-  
-        // Check if the user is an admin
+
         if (userRole === 'admin') {
           setIsAdminLoggedIn(true);
         } else {
@@ -43,12 +41,10 @@ function App() {
   
       } catch (error) {
         console.error('Failed to decode JWT token', error);
-        // In case of error, set logged-in state to false
         setIsLoggedIn(false);
         setIsAdminLoggedIn(false);
       }
     } else {
-      // No token, user is not logged in
       setIsLoggedIn(false);
       setIsAdminLoggedIn(false);
     }
@@ -56,7 +52,6 @@ function App() {
 
 
   useEffect(() => {
-    // Function to check if the refreshToken cookie exists
     const checkRefreshToken = () => {
       const cookies = document.cookie.split('; ');
       const refreshTokenCookie = cookies.find(cookie => cookie.startsWith('refreshToken='));
@@ -66,26 +61,22 @@ function App() {
       }
     };
 
-    // Call the function on component mount (page refresh)
     checkRefreshToken();
   }, []);
 
   const refreshJwtToken = async () => {
     try {
       const response = await axios.get('http://localhost/api/refresh-token.php', {
-        withCredentials: true // Send cookies with the request
+        withCredentials: true 
       });
       const { jwtToken: newToken } = response.data;
       sessionStorage.setItem('jwtToken', newToken);
-      console.log("jhkjhhk")
-      console.log(newToken);
       setJwtToken(newToken);
       setIsLoggedIn(true);
 
-      setLoading(false); // Set loading to false once token is refreshed
+      setLoading(false); 
     } catch (error) {
       console.error('Error refreshing JWT token:', error);
-      // Handle the error, such as redirecting to the login page
       setLoading(false);
     }
   };
@@ -96,9 +87,7 @@ function App() {
       if (!jwtToken) {
         refreshJwtToken();
       } else {
-        // Optional: Check token expiration and refresh if necessary
-        // Implement token expiration check if needed
-        setLoading(false); // Set loading to false if no refresh is needed
+        setLoading(false); 
       }
     };
 
@@ -109,7 +98,7 @@ function App() {
 
 
   if (loading) {
-    return <div>Loading...</div>; // Or any loading indicator
+    return <div>Loading...</div>; 
   }
    
 
@@ -135,7 +124,7 @@ function App() {
       <Routes>
         <Route path='/'  element={<Home/>}></Route>
         <Route path='user/profile'  element={<Profile idUser={userId} isLoggedIn={isLoggedIn}/>}></Route>
-        <Route path='user/create' element={<CreateUser isLoggedIn={isLoggedIn}  />} />
+        <Route path='user/create' element={<CreateUser   />} />
         <Route path='user/:id/Edit' element={<EditUser idUser={userId} />} />
         <Route path='user/listUsers' element={<ListUser isAdminLoggedIn={isAdminLoggedIn}  />} />
         <Route path='user/signUp' element={<SignUp/>} />

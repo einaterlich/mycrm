@@ -15,7 +15,6 @@ function ListUser({isAdminLoggedIn}) {
       if(isAdminLoggedIn){
         await axios.get('http://localhost/api/index.php')
         .then(response=>{
-          console.log(response.data);
           setUsers(response.data);
         }).catch(error=>{
           console.log("error while getting the data.",error);
@@ -30,22 +29,12 @@ function ListUser({isAdminLoggedIn}) {
   async function handleDelete(id) {
     try {
      const response = await axios.delete(`http://localhost/api/index.php/${id}/delete`);
-     console.log(response.data);
      getUsers(); // Refresh the data
     } catch (error) {
       console.error("Error while deleting the user:", error);
     }
 }
 
-
-
-//   const deleteUser = (id) => {
-//     axios.delete(`http://localhost:8888/api/user/${id}/delete`).then(function(response){
-//         console.log(response.data);
-//         getUsers();
-//     });
-// }
-  
   return (
     <>
     {isAdminLoggedIn?(

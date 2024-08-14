@@ -4,7 +4,7 @@ import './CreateUser.css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-function CreateUser({userId,edit,signUp,isLoggedIn}) {
+function CreateUser({userId,edit,signUp}) {
 
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -25,21 +25,6 @@ function CreateUser({userId,edit,signUp,isLoggedIn}) {
     address:'',
     password:''
   });
-  // if (id){
-  //   const user=getUserById(id);
-  //   console.log(user); 
-  //   setFormData({
-  //     firstname: user.firstname || '',
-  //     lastname: user.lastname || '',
-  //     email: user.email || '',
-  //     phone: user.phone || '',
-  //     city: user.city || '',
-  //     address: user.address || ''
-  // });
-
-
-  // }
-   
   
   
   async function getUsers(){
@@ -79,10 +64,10 @@ function CreateUser({userId,edit,signUp,isLoggedIn}) {
     event.preventDefault();
     // Handle form submission, e.g., send data to the server
     console.log(formData);
-    // if (!formData.name || !formData.email || !formData.phone) {
-    //   setErrorMessage('Please fill out all mandatory fields.');
-    //   return;
-    // }
+   if (!formData.firstname || !formData.email || !formData.phone  || !formData.phone || !formData.lastname || !formData.password || !formData.city || !formData.address) {
+      setErrorMessage('Please fill out all mandatory fields.');
+      return;
+   }
     try {
       if (userId){
         await axios.put(`http://localhost/api/index.php/${userId}/edit`, formData, {
@@ -91,9 +76,10 @@ function CreateUser({userId,edit,signUp,isLoggedIn}) {
           },
         }).then(response=>{
           if(response.status===200){
+            setErrorMessage('');
             setSuccessMessage('Form data Edited successfully. User Edited');
             setTimeout(() => {
-              navigate('/user/listUsers');
+              navigate('/');
             }, 2000); 
           }
           else{
@@ -155,9 +141,7 @@ function CreateUser({userId,edit,signUp,isLoggedIn}) {
 
 
   return (
-    <>{
-      isLoggedIn?(
-        <div className='main'>
+    <div className='main'>
       <div className='form'>
       <div className='details'> 
         <h2>{hText}</h2>
@@ -181,15 +165,6 @@ function CreateUser({userId,edit,signUp,isLoggedIn}) {
     </div>
    
 
-      ):(
-        <div>
-             <p>error. you dont have permmission</p>
-         </div>
-      )
-    }
-    
-    </>
-    
   );
 }
 

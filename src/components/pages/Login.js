@@ -18,14 +18,16 @@ function Login({isLoggedIn,setIsAdminLoggedIn,setUserId}) {
         email: '',
         password: '',
       });
-      const fields = [
+    const fields = [
         { name: 'email', label: 'User Email:', type: 'email', placeholder: 'Your Email'},
         { name: 'password', label: 'Password:', type: 'password', placeholder: 'Your Password'}
     ]
+    
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormLogin((prevFormLogin) => ({ ...prevFormLogin, [name]: value }));
       };
+      
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(formLogin);
@@ -33,7 +35,7 @@ function Login({isLoggedIn,setIsAdminLoggedIn,setUserId}) {
             await axios.post('http://localhost/api/login.php',formLogin).then(response=>{
                 if(response && response.data.status === 'success'){
                     setSuccessMessage('Login successful!');
-                    //localStorage.setItem('token', response.data.token);
+                    setErrorMessage('');
                     sessionStorage.setItem('jwtToken', response.data.token);
                     document.cookie = `refreshToken=${response.data.refreshToken}; expires=${new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toUTCString()}; path=/; secure; SameSite=Strict`;
                     isLoggedIn(true);
