@@ -105,6 +105,7 @@ function CreateUser({userId,edit,signUp}) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log(formData);
     const isFormDataValid = validateFormData(formData);
     const isEmailValid = validateEmail(formData.email);
     const isPhoneValid = validatePhone(formData.phone);
@@ -170,7 +171,6 @@ function CreateUser({userId,edit,signUp}) {
               setErrorMessage('');
             }
           
-            
           }
           else{
             setSuccessMessage('');
