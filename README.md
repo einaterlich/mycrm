@@ -11,7 +11,7 @@ create new customers
 Edit his profile
 
 you can log as an admin with:
-adminadmin@gmail.com
+einaterlich123@gmail.com
 123456789
 
 Customer:
