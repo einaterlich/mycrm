@@ -17,5 +17,9 @@ einaterlich123@gmail.com
 Customer:
 can see his profile and edit.
 
+the project is running on the loclhost
+to run : npm start 
+the db is phpmyadmin
+
 
 
