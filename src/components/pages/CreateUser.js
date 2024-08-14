@@ -60,14 +60,62 @@ function CreateUser({userId,edit,signUp}) {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
+  const validateFormData = (formData) => {
+    if (
+      !formData.firstname ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.lastname ||
+      !formData.password ||
+      !formData.city ||
+      !formData.address
+    ) {
+      setErrorMessage('Please fill out all mandatory fields.');
+      return false; 
+    }
+    return true; 
+  };
+  
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setErrorMessage('Invalid email format.');
+      return false;
+    }
+    return true;
+  };
+  
+  const validatePhone = (phone) => {
+    const phoneRegex = /^[0-9]{10}$/; // Simple validation for 10-digit phone number
+    if (!phoneRegex.test(phone)) {
+      setErrorMessage('Invalid phone number. Must be 10 digits.');
+      return false;
+    }
+    return true;
+  };
+  
+  const validatePassword = (password) => {
+    if (password.length < 6) {
+      setErrorMessage('Password must be at least 6 characters long.');
+      return false;
+    }
+    return true;
+  };
+  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle form submission, e.g., send data to the server
-    console.log(formData);
-   if (!formData.firstname || !formData.email || !formData.phone  || !formData.phone || !formData.lastname || !formData.password || !formData.city || !formData.address) {
-      setErrorMessage('Please fill out all mandatory fields.');
-      return;
-   }
+    const isFormDataValid = validateFormData(formData);
+    const isEmailValid = validateEmail(formData.email);
+    const isPhoneValid = validatePhone(formData.phone);
+    const isPasswordValid = validatePassword(formData.password);
+
+    // If any validation fails, stop the form submission
+    if (!isFormDataValid || !isEmailValid || !isPhoneValid || !isPasswordValid) {
+      return; // Prevent form submission
+    }
+
+   
     try {
       if (userId){
         await axios.put(`http://localhost/api/index.php/${userId}/edit`, formData, {
@@ -76,8 +124,8 @@ function CreateUser({userId,edit,signUp}) {
           },
         }).then(response=>{
           if(response.status===200){
-            setErrorMessage('');
             setSuccessMessage('Form data Edited successfully. User Edited');
+            setErrorMessage('');
             setTimeout(() => {
               navigate('/');
             }, 2000); 
@@ -99,6 +147,7 @@ function CreateUser({userId,edit,signUp}) {
           },
         }).then(response=>{
           if(response.status===200){
+            console.log(response);
             setFormData({
               firstname: '',
               lastname: '',
@@ -110,6 +159,7 @@ function CreateUser({userId,edit,signUp}) {
             });
             if(signUp){
               setSuccessMessage('User Created successfully.');
+              setErrorMessage('');
               setTimeout(() => {
                 navigate('/user/login');
               }, 2000); 
@@ -117,6 +167,7 @@ function CreateUser({userId,edit,signUp}) {
             }
             else{
               setSuccessMessage('Form data submitted successfully. User Created');
+              setErrorMessage('');
             }
           
             
